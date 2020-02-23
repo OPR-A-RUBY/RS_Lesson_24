@@ -8,21 +8,21 @@ get '/' do
 end
 
 get '/about' do
-	@error = "somephing wrong!"    # Пример вывода ошибки
+    @error = "somephing wrong!"    # Пример вывода ошибки
     erb :about
 end
 
 get '/visit' do
-	erb :visit
+    erb :visit
 end
 
 post '/visit' do
 
-	@user_name = params[:user_name]
+    @user_name = params[:user_name]
     @phone     = params[:phone]
     @date_time = params[:date_time]
     @barber    = params[:barber]
-    @color     = params[:color]
+    @color     = params[:colorpicker]
 
     if @user_name == ''
         @error = 'Введите имя'
@@ -41,13 +41,13 @@ post '/visit' do
 end
 
 get '/contacts' do
-	erb :contacts
+    erb :contacts
 end
 
 post '/contacts' do
-	@user_name 		= params[:user_name]
-    @phone_mail 	= params[:phone_mail]
-    @message_user 	= params[:message_user]
+    @user_name      = params[:user_name]
+    @phone_mail     = params[:phone_mail]
+    @message_user   = params[:message_user]
 
     @title = 'Ваше обращение доставлено!'
     @message = "Спасибо за обращение. Если оно требует ответа, мы постараемся связаться с Вами в бижайшее время."
