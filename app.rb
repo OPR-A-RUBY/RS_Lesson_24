@@ -24,15 +24,23 @@ post '/visit' do
     @barber    = params[:barber]
     @color     = params[:colorpicker]
 
-    if @user_name == ''
-        @error = 'Введите имя'
-    elsif @phone == ''
-        @error = 'Введите номер телефона'
-    elsif @date_time == ''
-        @error = 'Введите дату и время'    
+    hh = {  :user_name => 'Введите имя ',
+                :phone => 'Введите номер телефона ',
+            :date_time => 'Введите дату и время ' }
+=begin
+    # Для каждой пары ключ-значение
+    hh.each do |key, value|
+        # если параметр пуст
+        if params[key] == ''
+            # переменной error присвоить союе value из хеша hh
+            # т.е переменной error присвоить сообщение об ошибке
+            @error = hh[key]
+        end
+        return erb :visit
     end
-
-    return erb :visit if @error != '' # Вернуться на страницу visit
+=end
+    @error = hh.select {|key,_| params[key] == ""}.values.join(",")
+    return erb :visit if @error != ''
     
     @title = 'Спасибо!'
     @message = "Спасибо вам, #{@user_name}, будем ждать Вас."
@@ -64,3 +72,4 @@ post '/contacts' do
 
     erb :message
 end
+
