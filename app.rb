@@ -59,17 +59,31 @@ end
 
 post '/contacts' do
     @user_name      = params[:user_name]
-    @phone_mail     = params[:phone_mail]
+    @user_mail      = params[:user_mail]
     @message_user   = params[:message_user]
 
+    hh = {  :user_name => 'Вы не указали имя ',
+            :user_mail => 'Вы не указали адрес для ответа ',
+            :message_user => 'Текст Вашего сообщения не найден ' }
+
+    # Для каждой пары ключ-значение
+    hh.each do |key, value|
+        # если параметр пуст
+        if params[key] == ''
+            # переменной error присвоить союе value из хеша hh
+            # т.е переменной error присвоить сообщение об ошибке
+            @error = hh[key]
+            return erb :contacts
+        end
+    end
+    
     @title = 'Ваше обращение доставлено!'
     @message = "Спасибо за обращение. Если оно требует ответа, мы постараемся связаться с Вами в бижайшее время."
 
     out_f = File.open './public/contacts.txt', 'a'
-    out_f.write "\n\nUser: #{@user_name}, Call: #{@phone_mail},\n"
+    out_f.write "\n\nUser: #{@user_name}, Call: #{@user_mail},\n"
     out_f.write "Message: #{@message_user}\n"
     out_f.close
 
     erb :message
 end
-
