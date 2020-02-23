@@ -8,7 +8,8 @@ get '/' do
 end
 
 get '/about' do
-	erb :about
+	@error = "somephing wrong!"    # Пример вывода ошибки
+    erb :about
 end
 
 get '/visit' do
@@ -21,6 +22,12 @@ post '/visit' do
     @phone     = params[:phone]
     @date_time = params[:date_time]
     @barber    = params[:barber]
+    @color     = params[:color]
+
+    if @user_name == ''
+        @error = 'Введите имя'
+        return erb :visit
+    end
 
     @title = 'Спасибо!'
     @message = "Спасибо вам, #{@user_name}, будем ждать Вас."
