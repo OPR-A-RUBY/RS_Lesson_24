@@ -57,6 +57,7 @@ get '/contacts' do
     erb :contacts
 end
 
+=begin
 post '/contacts' do
     @user_name      = params[:user_name]
     @user_mail      = params[:user_mail]
@@ -86,4 +87,28 @@ post '/contacts' do
     out_f.close
 
     erb :message
+end
+=end
+
+post '/contacts' do 
+require 'pony'
+Pony.mail(
+    :name => params[:user_name],
+    :mail => params[:user_mail],
+    :body => params[:message_user],
+    :to => 'opr.a.ruby@gmail.com',
+    :subject => params[:name] + " has contacted you",
+    :body => params[:message],
+    :port => '587',
+    :via => :smtp,
+    :via_options => { 
+        :address              => 'smtp.gmail.com', 
+        :port                 => '587', 
+        :enable_starttls_auto => true, 
+        :user_name            => 'opr.a.ruby', 
+        :password             => 'p@55w0rd', 
+        :authentication       => :plain, 
+        :domain               => 'localhost.localdomain'
+    })
+    redirect '/success' 
 end
